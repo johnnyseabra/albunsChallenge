@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Default Route
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Users form route
+Route::get('/users/new', 'App\Http\Controllers\UsersController@create');
+Route::post('/users/new', 'App\Http\Controllers\UsersController@store')->name('saveUser');
+
+//Users form route
+Route::get('/albuns/new', 'App\Http\Controllers\AlbunsController@create');
+        
