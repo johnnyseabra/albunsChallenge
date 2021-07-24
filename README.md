@@ -1,2 +1,2 @@
 # moat
-Moat Task Challenge
+Moat PHP Task Challenge
