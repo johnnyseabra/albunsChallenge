@@ -14,6 +14,7 @@ class UsersController extends Controller
         return view('users.create');
     }
     
+    //Store new user
     public function store(Request $request)
     {
         Users::create([

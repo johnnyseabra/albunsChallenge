@@ -2,10 +2,10 @@
 <html>
     <head>
     	<meta charset="UTF-8">
-    	<title>New Album</title>
+    	<title>Album</title>
     </head>
     <body>
-    	<form action="{{ route('saveAlbum') }}" method="POST">
+    	<form action="{{ route('changeAlbum', ['id' => $album->id]) }}" method="POST">
     		@csrf
     		<label for="">Artist</label>
     		<select name="artist" id="artistDrop">
@@ -14,10 +14,10 @@
     			<option value="Pink Floyd">Pink Floyd</option>
 			</select><br />
     		<label for="">Name</label>
-    		<input type="text" name="name"><br />
+    		<input type="text" name="name" value="{{ $album->name }}"><br />
     		<label for="">Year</label>
-    		<input type="number" name="year"><br />
-    		<button>Salvar</button>
+    		<input type="number" name="year" value="{{ $album->year }}"><br />
+    		<button>Save</button>
     	</form>
     	<script>
     	/*

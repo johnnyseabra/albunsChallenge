@@ -2,7 +2,7 @@
 <html>
     <head>
     	<meta charset="UTF-8">
-    	<title>Cadastrar Usu�rio</title>
+    	<title>Add User</title>
     </head>
     <body>
     	<form action="{{ route('saveUser') }}" method="POST">

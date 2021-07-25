@@ -24,4 +24,7 @@ Route::post('/users/new', 'App\Http\Controllers\UsersController@store')->name('s
 
 //Users form route
 Route::get('/albuns/new', 'App\Http\Controllers\AlbunsController@create');
+Route::post('/albuns/new', 'App\Http\Controllers\AlbunsController@store')->name('saveAlbum');
+Route::get('/albuns/show/{id}', 'App\Http\Controllers\AlbunsController@show');
+Route::post('/albuns/show/{id}', 'App\Http\Controllers\AlbunsController@change')->name('changeAlbum');
         
