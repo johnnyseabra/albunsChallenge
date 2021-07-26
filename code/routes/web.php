@@ -21,8 +21,11 @@ Route::get('/', function () {
 //Users form route
 Route::get('/users/new', 'App\Http\Controllers\UsersController@create');
 Route::post('/users/new', 'App\Http\Controllers\UsersController@store')->name('saveUser');
+Route::get('/users/login', 'App\Http\Controllers\UsersController@renderLogin');
+Route::post('/users/login', 'App\Http\Controllers\UsersController@doLogin')->name('doLogin');
 
-//Users form route
+
+//Albuns form route
 Route::get('/albuns/new', 'App\Http\Controllers\AlbunsController@create');
 Route::post('/albuns/new', 'App\Http\Controllers\AlbunsController@store')->name('saveAlbum');
 Route::get('/albuns/show/{id}', 'App\Http\Controllers\AlbunsController@show');
