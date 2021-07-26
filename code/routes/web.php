@@ -27,4 +27,6 @@ Route::get('/albuns/new', 'App\Http\Controllers\AlbunsController@create');
 Route::post('/albuns/new', 'App\Http\Controllers\AlbunsController@store')->name('saveAlbum');
 Route::get('/albuns/show/{id}', 'App\Http\Controllers\AlbunsController@show');
 Route::post('/albuns/show/{id}', 'App\Http\Controllers\AlbunsController@change')->name('changeAlbum');
-        
+
+//Artist API routes
+Route::get('/artists/list', 'App\Http\Controllers\ArtistController@list');
