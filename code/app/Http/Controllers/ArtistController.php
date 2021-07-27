@@ -8,8 +8,14 @@ use GuzzleHttp\Client;
 class ArtistController extends Controller
 {
     //
-    public function list()
+    
+    public function list(Request $request)
     {
+        
+        if(!$request->session()->get('auth') == true)
+        {
+            dd("Não tem sessão");
+        }
         
         $client = new Client();
         $response = $client->get('https://moat.ai/api/task/', [

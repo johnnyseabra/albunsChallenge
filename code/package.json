@@ -12,7 +12,11 @@
     "devDependencies": {
         "axios": "^0.21",
         "laravel-mix": "^6.0.6",
+        "less-loader": "^10.0.1",
         "lodash": "^4.17.19",
-        "postcss": "^8.1.14"
+        "node-sass": "^6.0.1",
+        "postcss": "^8.1.14",
+        "sass-loader": "^12.1.0",
+        "stylus-loader": "^6.1.0"
     }
 }

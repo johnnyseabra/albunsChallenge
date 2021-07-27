@@ -28,8 +28,9 @@ Route::post('/users/login', 'App\Http\Controllers\UsersController@doLogin')->nam
 //Albuns form route
 Route::get('/albuns/new', 'App\Http\Controllers\AlbunsController@create');
 Route::post('/albuns/new', 'App\Http\Controllers\AlbunsController@store')->name('saveAlbum');
-Route::get('/albuns/show/{id}', 'App\Http\Controllers\AlbunsController@show');
+Route::get('/albuns/show/{id}', 'App\Http\Controllers\AlbunsController@show')->name('formAlbum');
 Route::post('/albuns/show/{id}', 'App\Http\Controllers\AlbunsController@change')->name('changeAlbum');
+Route::get('/albuns/artist/{artistName}', 'App\Http\Controllers\AlbunsController@listByArtist')->name('listByArtist');
 
 //Artist API routes
 Route::get('/artists/list', 'App\Http\Controllers\ArtistController@list');

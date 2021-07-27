@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Users;
 
 class UsersController extends Controller
@@ -36,12 +35,28 @@ class UsersController extends Controller
     
     //Do login 
     public function doLogin(Request $request)
-    {  /*
+    {  
+    
+        
+        
+        $user = Users::where('username', $request->username)->first();
+        
+        if($request->username == $user->username && md5($request->password) == $user->password)
+        {
+            $request->session()->put([ 'auth' => 'true', 'role' => $user->role ]);
+            
+            return("Usuário logado");
+            dd("Criar sessão");
+        }
+        
+    
+    
+    /*
         $credentials = $request->validate([
             'username' => ['required', 'username'],
             'password' => ['required']
         ]);
-        */
+        
         
         //dd($request);
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password ])) {
@@ -54,7 +69,7 @@ class UsersController extends Controller
         //TODO: VERIFICAR MENSAGEM DE RETORNO
         return back()->withErrors([
             'username' => 'The provided credentials do not match our records.',
-        ]);
+        ]); */
     }
     
     

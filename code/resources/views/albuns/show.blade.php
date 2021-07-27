@@ -2,16 +2,15 @@
 <html>
     <head>
     	<meta charset="UTF-8">
-    	<title>Album</title>
+    	<title>Album Edit</title>
+    	<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
     </head>
     <body>
     	<form action="{{ route('changeAlbum', ['id' => $album->id]) }}" method="POST">
     		@csrf
     		<label for="">Artist</label>
     		<select name="artist" id="artistDrop">
-    			<option value="Led Zeppelin">Led Zeppelin</option>
-    			<option value="Nirvana">Nirvana</option>
-    			<option value="Pink Floyd">Pink Floyd</option>
+    		
 			</select><br />
     		<label for="">Name</label>
     		<input type="text" name="name" value="{{ $album->name }}"><br />
@@ -20,21 +19,24 @@
     		<button>Save</button>
     	</form>
     	<script>
-    	/*
-        	$(document).ready(function () {
-					
-        		    //Basic ZGV2ZWxvcGVyOlpHVjJaV3h2Y0dWeQ==
-                	var url = "https://moat.ai/api/task/";
     
-                    $.getJSON(url, function (data) {
-                        $.each(data, function (index, value) {
-                            // APPEND OR INSERT DATA TO SELECT ELEMENT.
-                            $('#sel').append('<option value="' + value.ID + '">' + value.Name + '</option>');
-                        });
-                    });
-                });
-           */
-        </script>
+        	var artists = {!! $artists !!};
+
+        	var $option;
+    
+        	JSON.parse(JSON.stringify(artists), (key, value) => {
+        		 if(key == "name")
+        		 {
+        			$option = $('<option value="' + value + '">' + value + '</option>');
+                 	if( '{{ $album->artist }}' == value ) 
+                     	$option.attr('selected', 'selected');
+
+                 	$('#artistDrop').append($option);
+
+             	 }
+        		 return void(0);	
+    		});
+    	</script>
     </body>
 
 </html>

@@ -4,19 +4,42 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Album;
+use GuzzleHttp\Client;
 
 class AlbunsController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
-        return view('albuns.create');
+        
+        if(!$request->session()->get('auth') == true)
+        {
+            dd("Não tem sessão");
+        }
+        
+        
+        $client = new Client();
+       
+        $response = $client->get('https://moat.ai/api/task/', [
+            'headers' => [
+                'Basic' => 'ZGV2ZWxvcGVyOlpHVjJaV3h2Y0dWeQ=='
+            ],
+            'verify' => false
+        ]);
+        
+        if($response->getStatusCode() != 200)
+            return "Erro na integração";
+            
+        $body = $response->getBody()->getContents();
+            
+        return view('albuns.create')->with("artists", $body);
     }
     
     //Store new album
     public function store(Request $request)
     {
         
-        Album::create([
+        Album::create
+        ([
             "name" => $request->name,
             "year" => $request->year,
             "artist" => $request->artist
@@ -26,10 +49,29 @@ class AlbunsController extends Controller
     }
     
     //Show album data
-    public function show($id)
+    public function show(Request $request, $id)
     {
+        if(!$request->session()->get('auth') == true)
+        {
+            dd("Não tem sessão");
+        }
+        
+        $client = new Client();
+        
+        $response = $client->get('https://moat.ai/api/task/', [
+            'headers' => [
+                'Basic' => 'ZGV2ZWxvcGVyOlpHVjJaV3h2Y0dWeQ=='
+            ],
+            'verify' => false
+        ]);
+        
+        if($response->getStatusCode() != 200)
+            return "Erro na integração";
+            
+            $body = $response->getBody()->getContents();
+            
         $album = Album::findOrFail($id);
-        return view('albuns.show', ['album' => $album]);
+        return view('albuns.show', ['album' => $album])->with("artists", $body);
     }
     
     //Change album data
@@ -37,7 +79,8 @@ class AlbunsController extends Controller
     {
         $album = Album::findOrFail($id);
         
-        $album->update([
+        $album->update
+        ([
             "name" => $request->name,
             "year" => $request->year,
             "artist" => $request->artist
@@ -46,4 +89,14 @@ class AlbunsController extends Controller
         
         return "Album updated!";
     }
+    
+    //List by artist
+    public function listByArtist(Request $request, $name)
+    {
+        
+        $albuns = Album::where('artist', $name)->get();
+        
+        return view('albuns.list')->with("albuns", $albuns);
+    }
+    
 }
