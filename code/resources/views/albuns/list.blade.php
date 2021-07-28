@@ -2,23 +2,31 @@
 <html>
     <head>
     	<meta charset="UTF-8">
-    	<title>Artist Albuns</title>
-    	<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
-    	<link rel="stylesheet" href="{{ asset('css/all.css') }}">
-    	
+    	<title>..:: Albuns Challenge - Albuns List ::..</title>
+    	<link href="{{ mix('css/app.css') }}" rel="stylesheet">
     </head>
     <body>
-        <ul id="albunsList">
+       <div id="menu">
+       		<span><a href="/artists/list"  class="menuItem">Artist List</a></span>
+       		<span><a href="/albuns/new"  class="menuItem">New Album</a></span>
+       		<span><a href="/users/logout"  class="menuItem">Logout</a></span>
+        </div>
+         @if(session()->has('msg'))
+    		<div class="alert alert-success">
+        		{{ session()->get('msg') }}
+    		</div>
+		@endif
+        <br />
+        <ul id="albunsList" class="list-group">
         	@foreach ($albuns as $album)
-    			<li>{{ $album->name }}
-    			- <a href="{{ route('formAlbum', ['id' => $album->id]); }}">Edit</a>
-    			@if( $request->session()->get('role') == 'admin')
-    			- <a href="{{ route('deleteAlbum', ['id' => $album->id]); }}">Delete</a> 
-    			@endif
+    			<li class="list-group-item">
+    				{{ $album->name }}
+        			- <a href="{{ route('formAlbum', ['id' => $album->id]); }}">Edit</a>
+        			@if( Session::get('role') == 'admin' )
+        				- <a href="{{ route('deleteAlbum', ['id' => $album->id]); }}" onclick="return confirm('Are you sure?')">Delete</a> 
+        			@endif
     			</li>
 			@endforeach
         </ul>
-             
-   
     </body>
 </html>

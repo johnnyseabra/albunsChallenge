@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use App\Models\Album;
 use GuzzleHttp\Client;
 
@@ -29,9 +30,9 @@ class AlbunsController extends Controller
         if($response->getStatusCode() != 200)
             return "Erro na integração";
             
-        $body = $response->getBody()->getContents();
+        $artists = json_decode($response->getBody()->getContents());
             
-        return view('albuns.create')->with("artists", $body);
+        return view('albuns.create')->with("artists", $artists);
     }
     
     //Store new album
@@ -45,7 +46,9 @@ class AlbunsController extends Controller
             "artist" => $request->artist
         ]);
         
-        return("Album created!");
+        //return("Album created!");
+        //return view('albuns.list', ['artistName' => $request->artist]);
+        return Redirect::route('listByArtist', ['artistName' => $request->artist]);
     }
     
     //Show album data
@@ -68,10 +71,10 @@ class AlbunsController extends Controller
         if($response->getStatusCode() != 200)
             return "Erro na integração";
             
-            $body = $response->getBody()->getContents();
+        $artists = json_decode($response->getBody()->getContents());
             
         $album = Album::findOrFail($id);
-        return view('albuns.show', ['album' => $album])->with("artists", $body);
+        return view('albuns.show', ['album' => $album])->with("artists", $artists);
     }
     
     //Change album data
@@ -87,7 +90,7 @@ class AlbunsController extends Controller
         ]);
         
         
-        return "Album updated!";
+        return Redirect::back()->with('msg', 'Album changed!');
     }
     
     //List by artist
@@ -123,8 +126,7 @@ class AlbunsController extends Controller
         
         $albuns = Album::where('artist', $album->artist)->get();
         
-        //$route = route('listByArtist')->with(['artistName' => $album->artist]);
-        return view('albuns.list')->with(['artistName' => $album->artist])->with("albuns", $albuns);
+        return view('albuns.list')->with(['artistName' => $album->artist])->with("albuns", $albuns)->with(['msg' => 'Album removed!']);
         
 
         

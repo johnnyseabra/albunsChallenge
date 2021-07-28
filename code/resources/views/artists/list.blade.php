@@ -2,34 +2,20 @@
 <html>
     <head>
     	<meta charset="UTF-8">
-    	<title>Artists</title>
-    	<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
-    	
+    	<title>..:: Albuns Challenge - Artists List ::..</title>
+    	<link href="{{ mix('css/app.css') }}" rel="stylesheet">
     </head>
     <body>
-        <ul id="artistList">
-        	
-        	
+    	<div id="menu">
+       		<span><a href="/artists/list"  class="menuItem">Artist List</a></span>
+       		<span><a href="/albuns/new"  class="menuItem">New Album</a></span>
+       		<span><a href="/users/logout"  class="menuItem">Logout</a></span>
+        </div>
+        <br />
+        <ul id="artistList" class="list-group">
+        	@foreach ($artists as $artist)
+        		<li class="list-group-item"><a href="{{ route('listByArtist', ['artistName' => $artist[0]->name ]) }}">{{ $artist[0]->name; }}</a></li>
+        	@endforeach
         </ul>
-        
-        <script>
-    
-        $(document).ready(function () {
-        	var artists = {!! $artists !!};
-    
-        	JSON.parse(JSON.stringify(artists), (key, value) => {
-        		 if(key == "name")
-        		 {
-					var url = '{{ route("listByArtist", ["artistName" => ":name"]) }}';
-					url = url.replace(':name', value);
-                  	$('#artistList').append('<li value="' + value + '"><a href="' + url + '">' + value + '</a></li>');
-        		 }
-        		 return void(0);	
-    		});
-
-        });
-    		
-    	</script>
-    
     </body>
 </html>

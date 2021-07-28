@@ -2,41 +2,35 @@
 <html>
     <head>
     	<meta charset="UTF-8">
-    	<title>Album Edit</title>
-    	<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+    	<title>..:: Albuns Challenge - Album Edit ::..</title>
+    	<link href="{{ mix('css/app.css') }}" rel="stylesheet">
     </head>
     <body>
-    	<form action="{{ route('changeAlbum', ['id' => $album->id]) }}" method="POST">
-    		@csrf
-    		<label for="">Artist</label>
-    		<select name="artist" id="artistDrop">
-    		
-			</select><br />
-    		<label for="">Name</label>
-    		<input type="text" name="name" value="{{ $album->name }}"><br />
-    		<label for="">Year</label>
-    		<input type="number" name="year" value="{{ $album->year }}"><br />
-    		<button>Save</button>
-    	</form>
-    	<script>
-    
-        	var artists = {!! $artists !!};
-
-        	var $option;
-    
-        	JSON.parse(JSON.stringify(artists), (key, value) => {
-        		 if(key == "name")
-        		 {
-        			$option = $('<option value="' + value + '">' + value + '</option>');
-                 	if( '{{ $album->artist }}' == value ) 
-                     	$option.attr('selected', 'selected');
-
-                 	$('#artistDrop').append($option);
-
-             	 }
-        		 return void(0);	
-    		});
-    	</script>
-    </body>
-
+    	<div id="menu">
+       		<span><a href="/artists/list"  class="menuItem">Artist List</a></span>
+       		<span><a href="/albuns/new"  class="menuItem">New Album</a></span>
+        </div>
+         @if(session()->has('msg'))
+    		<div class="alert alert-success">
+        		{{ session()->get('msg') }}
+    		</div>
+		@endif
+		<br />
+		<div class="form-group">
+        	<form action="{{ route('changeAlbum', ['id' => $album->id]) }}" method="POST">
+        		@csrf
+        		<label for="artist">Artist</label><br />
+        		<select id="artist" class="form-control w-25" name="artist">
+            		@foreach ($artists as $artist)
+                		<option value="{{ $artist[0]->name; }}" {{ $artist[0]->name == $album->artist ? 'selected' : '' }}>{{ $artist[0]->name; }}</option>
+                	@endforeach
+    			</select><br />
+        		<label for="name">Name</label><br />
+        		<input type="text" class="form-control w-25" name="name" id="name" value="{{ $album->name }}"><br />
+        		<label for="year">Year</label><br />
+        		<input type="number" class="form-control w-25" name="year" id="year" value="{{ $album->year }}"><br />
+        		<button>Save</button>
+        	</form>
+    	</div>
+        </body>
 </html>

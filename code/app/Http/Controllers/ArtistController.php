@@ -14,7 +14,7 @@ class ArtistController extends Controller
         
         if(!$request->session()->get('auth') == true)
         {
-            dd("Não tem sessão");
+            dd("There is no Session");
         }
         
         $client = new Client();
@@ -28,11 +28,8 @@ class ArtistController extends Controller
         if($response->getStatusCode() != 200)
            return "Erro na integração";
         
-        $body = $response->getBody()->getContents();
+        $artists = json_decode($response->getBody()->getContents());
         
-        //$body = json_encode($body);
-        //dd($body);          
-        return view('artists.list')->with("artists", $body);
-        //return view('artists.list', ["artist" => $body]);
+        return view('artists.list')->with("artists", $artists);
     }
 }

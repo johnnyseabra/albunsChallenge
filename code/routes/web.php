@@ -16,13 +16,14 @@ use Illuminate\Support\Facades\Route;
 //Default Route
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 //Users form route
 Route::get('/users/new', 'App\Http\Controllers\UsersController@create');
 Route::post('/users/new', 'App\Http\Controllers\UsersController@store')->name('saveUser');
 Route::get('/users/login', 'App\Http\Controllers\UsersController@renderLogin');
 Route::post('/users/login', 'App\Http\Controllers\UsersController@doLogin')->name('doLogin');
+Route::get('/users/logout', 'App\Http\Controllers\UsersController@doLogout');
 
 
 //Albuns form route
@@ -34,4 +35,4 @@ Route::get('/albuns/artist/{artistName}', 'App\Http\Controllers\AlbunsController
 Route::get('/albuns/delete/{id}', 'App\Http\Controllers\AlbunsController@delete')->name('deleteAlbum');
 
 //Artist API routes
-Route::get('/artists/list', 'App\Http\Controllers\ArtistController@list');
+Route::get('/artists/list', 'App\Http\Controllers\ArtistController@list')->name("listArtists");

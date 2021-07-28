@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use App\Models\Users;
 
 class UsersController extends Controller
@@ -24,7 +26,7 @@ class UsersController extends Controller
             'role' => $request->role
         ]);
         
-        return("User created!");
+        return Redirect::back()->with('msg', 'User created!');
     }
     
     //Render login view
@@ -36,8 +38,6 @@ class UsersController extends Controller
     //Do login 
     public function doLogin(Request $request)
     {  
-    
-        
         
         $user = Users::where('username', $request->username)->first();
         
@@ -45,32 +45,20 @@ class UsersController extends Controller
         {
             $request->session()->put([ 'auth' => 'true', 'role' => $user->role ]);
             
-            return("Usuário logado");
-            dd("Criar sessão");
+            return Redirect::route('listArtists');
         }
-        
-    
-    
-    /*
-        $credentials = $request->validate([
-            'username' => ['required', 'username'],
-            'password' => ['required']
-        ]);
-        
-        
-        //dd($request);
-        if (Auth::attempt(['username' => $request->username, 'password' => $request->password ])) {
-            $request->session()->regenerate();
-            dd("aqui");
-            return("Login ok");
+        else 
+        {
+            return Redirect::back()->with('err', 'Sorry, we couldn\'t find an account with this username. Please check you\'re using the right username and try again.');
         }
-        
-        dd("Não foi login");
-        //TODO: VERIFICAR MENSAGEM DE RETORNO
-        return back()->withErrors([
-            'username' => 'The provided credentials do not match our records.',
-        ]); */
+ 
     }
     
-    
+    //Do logout
+    public function doLogout(Request $request)
+    {
+        $request->session()->flush();
+        
+        return Redirect::route('home');
+    }
 }
