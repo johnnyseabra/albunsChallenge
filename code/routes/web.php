@@ -31,6 +31,7 @@ Route::post('/albuns/new', 'App\Http\Controllers\AlbunsController@store')->name(
 Route::get('/albuns/show/{id}', 'App\Http\Controllers\AlbunsController@show')->name('formAlbum');
 Route::post('/albuns/show/{id}', 'App\Http\Controllers\AlbunsController@change')->name('changeAlbum');
 Route::get('/albuns/artist/{artistName}', 'App\Http\Controllers\AlbunsController@listByArtist')->name('listByArtist');
+Route::get('/albuns/delete/{id}', 'App\Http\Controllers\AlbunsController@delete')->name('deleteAlbum');
 
 //Artist API routes
 Route::get('/artists/list', 'App\Http\Controllers\ArtistController@list');

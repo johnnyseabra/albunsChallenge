@@ -93,10 +93,40 @@ class AlbunsController extends Controller
     //List by artist
     public function listByArtist(Request $request, $name)
     {
+        if(!$request->session()->get('auth') == true)
+        {
+            dd("Não tem sessão");
+        }
         
         $albuns = Album::where('artist', $name)->get();
         
         return view('albuns.list')->with("albuns", $albuns);
     }
     
+    
+    //}Delete an album
+    public function delete(Request $request, $album)
+    {
+        
+        if(!$request->session()->get('auth') == true)
+        {
+            dd("Não tem sessão");
+        }
+        if(!$request->session()->get('role') == 'admin')
+        {
+            dd("Não tem admin");
+        }
+        
+        $album = Album::findOrFail($album);
+        $album->delete();
+        
+        
+        $albuns = Album::where('artist', $album->artist)->get();
+        
+        //$route = route('listByArtist')->with(['artistName' => $album->artist]);
+        return view('albuns.list')->with(['artistName' => $album->artist])->with("albuns", $albuns);
+        
+
+        
+    }
 }
